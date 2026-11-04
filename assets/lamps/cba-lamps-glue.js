@@ -15,7 +15,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '20261103unify-internal22';
+  var VERSION = '20261104-market3tab20';
   var STARTUP_URL = 'cba-startup.js?v=' + VERSION;
   var PRACTICE_KEY_MARK = ':r13-isolated-practice';
   var platform = global.LampsPlatform || {};
@@ -617,6 +617,14 @@
    * 启动时先用本地缓存（若有更新的快照），再联网同步；失败保持包内快照。
    */
   var OFFICIAL_FEED_URL = 'https://lamps-api.hoorahgo.com/cloud-proxy/app-1b8c1d4749-d8gmk54gz5fc75d0d-1252166086.ap-shanghai.app.tcloudbase.com/api/official-feed';
+  // 平台代理不可用时，退回同一官方数据源直连地址；仍只走 LampsGame.request。
+  var OFFICIAL_FEED_FALLBACK_URL = (function () {
+    try {
+      var u = new URL(OFFICIAL_FEED_URL), parts = u.pathname.split('/').filter(Boolean);
+      if (parts[0] === 'cloud-proxy' && parts.length > 2) return 'https://' + parts.slice(1).join('/');
+    } catch (_) {}
+    return '';
+  })();
   var FEED_CACHE_KEY = 'cba-official-feed-v1';
   var FEED_SYNC_INTERVAL = 30 * 60 * 1000;
 
@@ -767,27 +775,50 @@
       if (running) return Promise.resolve({ ok: false, busy: true, message: '数据正在同步，请稍候' });
       running = true;
       lastSync = Date.now();
-      return global.LampsGame.request({
-        url: OFFICIAL_FEED_URL,
-        method: 'get',
-        header: { 'Content-Type': 'application/json' },
-      }).then(function (res) {
-        running = false;
-        var feed = extractFeed(res);
-        var snap = {};
-        try { snap = global.CBAPlayerData.getSnapshot() || {}; } catch (_) {}
-        var date = String((snap && snap.updatedAt) || '').slice(0, 10);
-        if (!feed) return { ok: false, message: failureMessage(res) };
-        saveCache(feed);
-        var updated = applyFeed(feed, 'manual');
-        if (updated) {
+      var snap = {};
+      try { snap = global.CBAPlayerData.getSnapshot() || {}; } catch (_) {}
+      var date = String((snap && snap.updatedAt) || '').slice(0, 10);
+      function read(url) {
+        return global.LampsGame.request({
+          url: url,
+          method: 'get',
+          header: { 'Content-Type': 'application/json' },
+        }).then(function (res) {
+          var feed = extractFeed(res);
+          if (!feed) return null;
+          saveCache(feed);
+          var updated = applyFeed(feed, 'manual');
           try { snap = global.CBAPlayerData.getSnapshot() || snap; } catch (_) {}
-          date = String((snap && snap.updatedAt) || feed.updatedAt || '').slice(0, 10);
-        }
-        return { ok: true, updated: updated, date: date };
-      }, function (err) {
+          date = String((snap && snap.updatedAt) || feed.updatedAt || date).slice(0, 10);
+          return { ok: true, updated: updated, date: date };
+        }, function () { return null; });
+      }
+      function degraded() {
+        var hasSnapshot = !!(snap && snap.players && Object.keys(snap.players).length);
+        return hasSnapshot
+          ? { ok: true, updated: false, degraded: true, date: date, message: '行情服务暂不可用，已保留最近数据' }
+          : { ok: false, message: '行情刷新失败，请稍后再试' };
+      }
+      function readWithFallback() {
+        return new Promise(function (resolve) {
+          var done = false, fallbackStarted = false, timer = null;
+          function finish(result) { if (done) return; done = true; clearTimeout(timer); resolve(result); }
+          function startFallback() {
+            if (fallbackStarted) return;
+            fallbackStarted = true;
+            if (!OFFICIAL_FEED_FALLBACK_URL) { finish(null); return; }
+            read(OFFICIAL_FEED_FALLBACK_URL).then(finish, function () { finish(null); });
+          }
+          // 代理 6 秒无结果就并行尝试官方源；谁先成功用谁。
+          timer = setTimeout(startFallback, 6000);
+          read(OFFICIAL_FEED_URL).then(function (result) {
+            if (result) finish(result); else startFallback();
+          }, startFallback);
+        });
+      }
+      return readWithFallback().then(function (result) {
         running = false;
-        return { ok: false, message: (err && err.message) || '行情刷新失败，请稍后再试' };
+        return result || degraded();
       });
     }
     global.CBAOfficialFeedRefresh = forceSync;
@@ -1161,6 +1192,7 @@
       '.cba-sync-state{margin-left:auto;font-weight:800;white-space:nowrap;}',
       '.cba-sync-state.is-ok{color:#a3e635;}',
       '.cba-sync-state.is-err{color:#f87171;}',
+      '.cba-sync-state.is-warn{color:#fbbf24;}',
       '.cba-sync-state.is-busy{color:#38bdf8;}',
     ].join('');
     doc.head.appendChild(css);
@@ -1223,6 +1255,7 @@
       if (syncMode === 'busy') { cls += 'is-busy'; text = '正在同步…'; }
       else if (syncMode === 'updated') { cls += 'is-ok'; text = '行情已更新'; }
       else if (syncMode === 'error') { cls += 'is-err'; text = '同步失败：' + (syncMessage || '请稍后再试'); }
+      else if (syncMode === 'stale') { cls += 'is-warn'; text = '已保留最近数据'; }
       else { cls += 'is-ok'; }
       state.className = cls;
       state.textContent = text;
@@ -1271,8 +1304,11 @@
       btn.disabled = true;
       btn.textContent = '更新中…';
       setSync('busy');
+      var attempts = 0;
       var finished = false;
-      var timer = setTimeout(function () { finish({ ok: false, message: '刷新超时，请稍后再试' }); }, 15000);
+      var timer = setTimeout(function () {
+        finish({ ok: true, degraded: true, date: '', message: '刷新超时，已保留最近数据' });
+      }, 15000);
       function finish(res) {
         if (finished) return;
         finished = true;
@@ -1287,21 +1323,38 @@
         if (res && res.ok && res.updated) {
           setSync('updated');
           toast('行情已刷新' + (res.date ? ' · ' + res.date : ''));
+        } else if (res && res.ok && res.degraded) {
+          setSync('stale', res.message);
+          toast('行情服务暂不可用，已保留最近数据' + (res.date ? ' · ' + res.date : ''));
         } else if (res && res.ok) {
           setSync('latest');
           toast('当前已是最新行情' + (res.date ? ' · ' + res.date : ''));
+        } else if (res && res.busy) {
+          setSync('stale', '数据正在同步');
+          toast('数据正在同步，已保留最近数据');
         } else {
           setSync('error', res && res.message);
           toast((res && res.message) || '行情刷新失败，请稍后再试', 'error');
         }
       }
-      try {
-        global.CBAOfficialFeedRefresh().then(finish, function (err) {
+      function run() {
+        try {
+          global.CBAOfficialFeedRefresh().then(function (res) {
+            if (res && res.busy && attempts < 8) {
+              attempts++;
+              setSync('busy');
+              setTimeout(run, 1200);
+              return;
+            }
+            finish(res);
+          }, function (err) {
+            finish({ ok: false, message: (err && err.message) || '行情刷新失败，请稍后再试' });
+          });
+        } catch (err) {
           finish({ ok: false, message: (err && err.message) || '行情刷新失败，请稍后再试' });
-        });
-      } catch (err) {
-        finish({ ok: false, message: (err && err.message) || '行情刷新失败，请稍后再试' });
+        }
       }
+      run();
     }, true);
   }
 

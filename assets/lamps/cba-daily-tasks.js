@@ -113,11 +113,6 @@
   function claimReward(taskId, amount, kind) {
     var data = load();
     var day = bjDay();
-    if (taskId === 'checkin') {
-      // 签到任务：先完成常驻每日签到（+200），再领任务奖励（+20）
-      if (checkedInToday()) return false;
-      if (!doCheckin()) return false;
-    }
     data.claims = data.claims || {};
     data.claims[day] = data.claims[day] || {};
     data.claims = data.claims || {};
@@ -243,7 +238,6 @@
       '#cba-tasks-panel .ts-row>small{display:block;margin-top:2px;font-size:10px;line-height:1.55;color:#94a3b8;}',
       '#cba-tasks-panel .ts-row.is-claimed .ts-row-main b{color:#94a3b8;}',
       '#cba-tasks-panel .ts-row.is-claimed .ts-row-main strong{color:#64748b;}',
-      '#cba-tasks-panel .ts-row-meta .claim{min-width:0;height:auto;padding:0;border:0;background:none;box-shadow:none;color:#a3e635;font:700 10px/1.5 inherit;}',
       '#cba-tasks-panel .ts-week{margin-top:14px;padding:12px;border:1px solid #111827;border-radius:10px;background:#111827;}',
       '#cba-tasks-panel .ts-week-head b{font-size:12px;}',
       '#cba-tasks-panel .ts-week-head span{font-size:12px;}',
@@ -265,7 +259,6 @@
       if (done && !isClaimed) claimable++;
       var action;
       if (isClaimed) action = '<b class="is-muted">已领取</b>';
-      else if (t.id === 'checkin') action = '<button class="claim ts-claim" data-task="checkin">签到 +220</button>';
       else if (done) action = '<button class="claim ts-claim" data-task="' + t.id + '">领取</button>';
       else action = '<b class="is-muted">进行中</b>';
       var stateCls = isClaimed ? ' is-claimed' : (done ? ' is-done' : '');
@@ -314,7 +307,10 @@
       btn.onclick = function () {
         var id = btn.getAttribute('data-task');
         var okTask = id === '__week' ? claimWeekly() : claimReward(id, REWARD, 'daily');
-        if (okTask) renderPanel(doc);
+        if (okTask) {
+          renderPanel(doc);
+          if (global.__CBA_DAILY_TASK_DOT__) global.__CBA_DAILY_TASK_DOT__();
+        }
       };
     });
   }
@@ -329,7 +325,7 @@
       var data = load();
       var claimed = claimedToday(data);
       var hasClaimable = TASKS.some(function (t) { return taskDone(t.id) && !claimed[t.id]; }) ||
-        !checkedInToday() ||
+        (!claimed.checkin && !checkedInToday()) ||
         (weekCoins(data) >= WEEK_GOAL && !weeklyClaimed(data));
       var dot = b.querySelector('.cba-red-dot');
       if (hasClaimable && !dot) {
@@ -340,6 +336,7 @@
         dot.remove();
       }
     }
+    global.__CBA_DAILY_TASK_DOT__ = updateDot;
     // 「每日任务」作为独立入口插入快捷栏，保留原有「每日签到」入口（React 重渲染后自动补回）
     function makeEntryButton() {
       var b = doc.createElement('button');

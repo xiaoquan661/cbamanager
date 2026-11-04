@@ -10,7 +10,9 @@ dist/
 
 # debug and backups
 tmp-*.js
+tmp-*.py
 _backup-pre-light/
+recon/backup-assets-*/
 *.bak
 *.bak-*
 recon/index.4de4067c.js

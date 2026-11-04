@@ -2689,9 +2689,9 @@ html, body { color-scheme:dark; font-family:var(--cba-font); -webkit-text-size-a
 .fantasy-coach-statgrid > div {
   min-width: 0;
   padding: 9px 6px;
-  border: 1px solid rgba(131,187,27,28);
+  border: 1px solid rgba(131,187,27,.28);
   border-radius: 7px;
-  background: rgba(131,187,27,6);
+  background: rgba(131,187,27,.08);
 }
 .fantasy-coach-statgrid span,
 .fantasy-coach-statgrid strong {
@@ -2701,13 +2701,17 @@ html, body { color-scheme:dark; font-family:var(--cba-font); -webkit-text-size-a
 .fantasy-coach-statgrid span {
   margin-bottom: 3px;
   font-size: 11px;
-  opacity: .7;
+  color: #cbd5e1;
+  opacity: .92;
 }
 .fantasy-coach-statgrid strong {
   font-size: 18px;
   line-height: 1.25;
   font-variant-numeric: tabular-nums;
 }
+.fantasy-coach-statgrid strong.is-up { color: #ff7a6e !important; }
+.fantasy-coach-statgrid strong.is-down { color: #74e0a0 !important; }
+.fantasy-coach-statgrid strong.is-flat { color: #e2e8f0 !important; }
 .fantasy-coach-detail .fantasy-coach-specialty {
   margin: 5px 0 9px;
   font-size: 12px;
@@ -2961,27 +2965,27 @@ main.game-content>*{animation:cba-page-in .18s ease-out}
 /* lobby-art: 20261103 */
 .page-home .cover-grid button.cover-tile>.module-art{display:none!important}
 .page-home .cover-grid button.cover-recruit>img{display:none!important}
-.page-home .cover-grid button.cover-market{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.jpg")!important;background-size:cover!important;background-position:50% 38%!important}
-.page-home .cover-grid button.cover-fusion{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.jpg")!important;background-size:cover!important;background-position:50% 42%!important}
-.page-home .cover-grid button.cover-recruit{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.jpg?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important}
-.page-home .cover-grid button.cover-season{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.jpg")!important;background-size:cover!important;background-position:50% 50%!important}
-.page-home .cover-grid button.cover-ranking{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.jpg")!important;background-size:cover!important;background-position:50% 46%!important}
+.page-home .cover-grid button.cover-market{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.webp")!important;background-size:cover!important;background-position:50% 38%!important}
+.page-home .cover-grid button.cover-fusion{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.webp")!important;background-size:cover!important;background-position:50% 42%!important}
+.page-home .cover-grid button.cover-recruit{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.webp?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important}
+.page-home .cover-grid button.cover-season{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.webp")!important;background-size:cover!important;background-position:50% 50%!important}
+.page-home .cover-grid button.cover-ranking{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.webp")!important;background-size:cover!important;background-position:50% 46%!important}
 
 /* lobby-art-fix: 20261103 */
 .fantasy-app .page-home .cover-grid button.cover-tile>.module-art{display:none!important}
 .fantasy-app .page-home .cover-grid button.cover-recruit>img{display:none!important}
-.fantasy-app .page-home .cover-grid button.cover-market{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.jpg")!important;background-size:cover!important;background-position:50% 38%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-fusion{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.jpg")!important;background-size:cover!important;background-position:50% 42%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-recruit{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.jpg?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-season{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.jpg")!important;background-size:cover!important;background-position:50% 50%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-ranking{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.jpg")!important;background-size:cover!important;background-position:50% 46%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-market{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.webp")!important;background-size:cover!important;background-position:50% 38%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-fusion{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.webp")!important;background-size:cover!important;background-position:50% 42%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-recruit{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.webp?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-season{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.webp")!important;background-size:cover!important;background-position:50% 50%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-ranking{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.webp")!important;background-size:cover!important;background-position:50% 46%!important;background-repeat:no-repeat!important}
 
 /* lobby-art-hover: 20261103 */
-.fantasy-app .page-home .cover-grid button.cover-market:hover,.fantasy-app .page-home .cover-grid button.cover-market:focus-visible,.fantasy-app .page-home .cover-grid button.cover-market:active{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.jpg")!important;background-size:cover!important;background-position:50% 38%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-fusion:hover,.fantasy-app .page-home .cover-grid button.cover-fusion:focus-visible,.fantasy-app .page-home .cover-grid button.cover-fusion:active{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.jpg")!important;background-size:cover!important;background-position:50% 42%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-recruit:hover,.fantasy-app .page-home .cover-grid button.cover-recruit:focus-visible,.fantasy-app .page-home .cover-grid button.cover-recruit:active{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.jpg?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-season:hover,.fantasy-app .page-home .cover-grid button.cover-season:focus-visible,.fantasy-app .page-home .cover-grid button.cover-season:active{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.jpg")!important;background-size:cover!important;background-position:50% 50%!important;background-repeat:no-repeat!important}
-.fantasy-app .page-home .cover-grid button.cover-ranking:hover,.fantasy-app .page-home .cover-grid button.cover-ranking:focus-visible,.fantasy-app .page-home .cover-grid button.cover-ranking:active{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.jpg")!important;background-size:cover!important;background-position:50% 46%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-market:hover,.fantasy-app .page-home .cover-grid button.cover-market:focus-visible,.fantasy-app .page-home .cover-grid button.cover-market:active{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-signing.webp")!important;background-size:cover!important;background-position:50% 38%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-fusion:hover,.fantasy-app .page-home .cover-grid button.cover-fusion:focus-visible,.fantasy-app .page-home .cover-grid button.cover-fusion:active{background-image:linear-gradient(180deg,#080e1800 38%,#080e18d9 100%),url("assets/lobby/lobby-duel.webp")!important;background-size:cover!important;background-position:50% 42%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-recruit:hover,.fantasy-app .page-home .cover-grid button.cover-recruit:focus-visible,.fantasy-app .page-home .cover-grid button.cover-recruit:active{background-image:linear-gradient(180deg,#080e18cc 0%,#080e1800 22%,#080e1800 52%,#080e18e6 100%),url("assets/lobby/lobby-star.webp?v=20261103p")!important;background-size:cover!important;background-position:50% 34%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-season:hover,.fantasy-app .page-home .cover-grid button.cover-season:focus-visible,.fantasy-app .page-home .cover-grid button.cover-season:active{background-image:linear-gradient(180deg,#080e1800 42%,#080e18e0 100%),url("assets/lobby/lobby-arena.webp")!important;background-size:cover!important;background-position:50% 50%!important;background-repeat:no-repeat!important}
+.fantasy-app .page-home .cover-grid button.cover-ranking:hover,.fantasy-app .page-home .cover-grid button.cover-ranking:focus-visible,.fantasy-app .page-home .cover-grid button.cover-ranking:active{background-image:linear-gradient(90deg,#080e18e6 0%,#080e1866 55%,#080e18b3 100%),url("assets/lobby/lobby-trophy.webp")!important;background-size:cover!important;background-position:50% 46%!important;background-repeat:no-repeat!important}
 /* lobby-layout-a: 20261103 */
 .fantasy-app .page-home .cover-grid{grid-template-rows:minmax(132px,1.18fr) minmax(104px,1fr) minmax(104px,1fr)!important;min-height:370px!important}
 .fantasy-app .page-home .cover-grid button.cover-season{grid-area:1/1/auto/11!important}
@@ -3231,7 +3235,7 @@ body.cba-task-open{overflow:hidden!important}
 
 /* journey-arena: 20261103 */
 .page-season .journey-start-art{
-  background-image:url("assets/lobby/lobby-arena.jpg")!important;
+  background-image:url("assets/lobby/lobby-arena.webp")!important;
   background-size:cover!important;
   background-position:center 55%!important;
   background-repeat:no-repeat!important;
@@ -3239,8 +3243,9 @@ body.cba-task-open{overflow:hidden!important}
   filter:brightness(.82) saturate(1.05)!important;
 }
 
-/* market-sort-4col: 20261103 */
-.fantasy-market .fantasy-sort{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important;align-items:center!important}
+/* market-sort-3col: 20261104 */
+.fantasy-market .fantasy-sort{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important;align-items:center!important}
+.fantasy-market .fantasy-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 .fantasy-market .fantasy-sort button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:6px 2px!important;line-height:1.2!important}
 .fantasy-market .cba-sort-arrow{font-size:9px;line-height:1;font-weight:700;color:inherit;opacity:.95;transform:translateY(-.5px)}
 
@@ -3474,3 +3479,38 @@ body.cba-task-open{overflow:hidden!important}
 .fantasy-app main.page-market,
 .fantasy-app main.page-recruit,
 .fantasy-app main.page-season{padding-top:8px!important}
+
+/* market-team-select: 20261104 */
+.fantasy-app .fantasy-toolbar .cba-team-select{position:relative;flex:0 0 112px;max-width:112px;min-width:0}
+.fantasy-app .cba-team-select-trigger{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;min-height:40px;padding:8px 10px;background:#1b2535;border:1px solid #263244;border-radius:5px;color:#f8fafc;font:inherit;font-size:12px;text-align:left;cursor:pointer}
+.fantasy-app .cba-team-select-trigger>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fantasy-app .cba-team-select-caret{flex:none;font-size:10px;line-height:1;color:#94a3b8;transition:transform .18s ease,color .18s ease}
+.fantasy-app .cba-team-select.open .cba-team-select-trigger{border-color:#a3e635;background:#111827}
+.fantasy-app .cba-team-select.open .cba-team-select-caret{transform:rotate(180deg);color:#a3e635}
+.fantasy-app .cba-team-select-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:80;box-sizing:border-box;width:max-content;min-width:132px;max-width:min(72vw,200px);max-height:min(56vh,280px);overflow-y:auto;overscroll-behavior:contain;padding:5px;background:#111827;border:1px solid #263244;border-radius:8px;box-shadow:0 16px 40px #000a;animation:cba-team-panel-in .16s ease-out both}
+.fantasy-app .cba-team-select-panel button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:34px;padding:7px 9px;border:0;border-radius:5px;background:transparent;color:#cbd5e1;font:inherit;font-size:12px;text-align:left;white-space:nowrap;cursor:pointer}
+.fantasy-app .cba-team-select-panel button:hover,.fantasy-app .cba-team-select-panel button:focus-visible{background:#1b2535;color:#f8fafc;outline:none}
+.fantasy-app .cba-team-select-panel button.active{background:rgba(163,230,53,.12);color:#a3e635;font-weight:700}
+.fantasy-app .cba-team-select-check{flex:none;color:#a3e635;font-size:12px;font-weight:700}
+.fantasy-app .cba-team-select-panel::-webkit-scrollbar{width:4px}
+.fantasy-app .cba-team-select-panel::-webkit-scrollbar-thumb{background:#263244;border-radius:4px}
+@keyframes cba-team-panel-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(max-width:360px){.fantasy-app .fantasy-toolbar .cba-team-select{flex-basis:100px;max-width:100px}.fantasy-app .cba-team-select-trigger{padding-left:8px;padding-right:8px}.fantasy-app .cba-team-select-panel{min-width:124px}}
+/* pd-secondary-contrast: 20261104 */
+.fantasy-player-screen .pd-trade-actions .button.secondary{color:#f8fafc!important;background:#111827!important;border-color:#64748b!important;box-shadow:none!important}
+.fantasy-player-screen .pd-trade-actions .button.secondary:active{background:#1b2535!important}
+/* lineup-recommend-tag: 20261104 */
+.lineup-recommend{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.lineup-recommend .lineup-recommend-tag{display:inline-flex;align-items:center;min-height:20px;padding:0 9px;border:1px solid rgba(163,230,53,.38);border-radius:99px;background:rgba(163,230,53,.12);color:#a3e635;font-size:10px;font-weight:800;letter-spacing:.6px;line-height:1}
+.lineup-recommend .button.full{width:100%;margin:0}
+.lineup-recommend .fineprint{margin:0}
+/* cba-recommend-badge: 20261104 */
+.fantasy-person-tile .cba-recommend-badge{position:absolute;top:7px;right:7px;z-index:4;pointer-events:none;padding:2px 7px;border-radius:999px;background:#a3e635;color:#111827;font-size:9px;font-weight:800;line-height:1.4;letter-spacing:.5px;box-shadow:0 2px 8px #0006}
+/* tactics-portrait-border: 20261104 */
+.tp-portrait{border-width:1px!important;border-color:rgba(248,250,252,.30)!important;border-radius:6px!important;box-shadow:0 4px 14px rgba(0,0,0,.26),inset 0 0 0 1px rgba(9,13,22,.55)!important}
+.tp-portrait.tier-1{border-color:rgba(104,219,146,.78)!important}
+.tp-portrait.tier-4{border-color:rgba(163,230,53,.85)!important}
+/* shop-used-offer: 20261104 */
+.fantasy-flip.used{border-color:#64748b!important;filter:saturate(.55);opacity:.94}
+.fantasy-flip.used .fantasy-offer-foot{color:#94a3b8}
+.fantasy-flip.used .fantasy-offer-rate{opacity:.55}
