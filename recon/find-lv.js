@@ -1,0 +1,10 @@
+const fs = require("fs");
+const js = fs.readFileSync("C:/10.19源码/签下整个CBA/cba-startup.js", "utf8");
+const lines = js.split("\n");
+console.log("总行数", lines.length);
+const line = lines[4545] || "";
+console.log("4546 长度", line.length);
+console.log("col 4700-5000:", line.slice(4700, 5000));
+let i = js.indexOf("function Lv");
+console.log("\nfunction Lv idx", i);
+if (i >= 0) console.log(js.slice(i - 200, i + 1800));

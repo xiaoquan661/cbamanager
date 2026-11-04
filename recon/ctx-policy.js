@@ -1,0 +1,1 @@
+﻿const fs=require("fs");const s=fs.readFileSync("cba-startup.js","utf8");const p="coachPowerPolicy";let i=0,n=0;while((i=s.indexOf(p,i))>=0){console.log(n++,JSON.stringify(s.slice(i-100,i+100)));i+=p.length;}

@@ -1,0 +1,14 @@
+{
+  "hostTeamName" : "深圳马可波罗",
+  "guestTeamName" : "山西汾酒",
+  "hostScore" : 95,
+  "guestScore" : 83,
+  "hostTeamId" : 29131,
+  "guestTeamId" : 29132,
+  "hostTeamLogo" : "https://image.cbaleague.com/cbaleague/teamlogo/300x300/29131_300.png",
+  "guestTeamLogo" : "https://image.cbaleague.com/cbaleague/teamlogo/300x300/29132_300.png",
+  "scheduleTime" : "2026-10-28 19:35:00",
+  "count" : 85,
+  "hostColor" : "#CE0037",
+  "guestColor" : "#7E040C"
+}

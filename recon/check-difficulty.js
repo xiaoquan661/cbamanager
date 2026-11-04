@@ -1,0 +1,10 @@
+const fs = require("fs");
+const js = fs.readFileSync("cba-startup.js", "utf8");
+const m = js.match(/plan=\[[0-9,]+\]/);
+console.log("plan:", m && m[0]);
+const arr = m ? m[0].slice(6, -1).split(",").map(Number) : [];
+console.log("length:", arr.length, "sorted:", arr.every((v, i) => i === 0 || v >= arr[i - 1]));
+const h = fs.readFileSync("index.html", "utf8");
+console.log("glue ver:", (h.match(/cba-lamps-glue\.js\?v=([^"']+)/) || [])[1]);
+console.log("daily v10:", h.includes("cba-daily-tasks.js?v=10"));
+console.log("zip bytes:", fs.statSync("dist/cba-lamps-upload.zip").size);

@@ -1,0 +1,19 @@
+# build outputs
+dist/
+*.zip
+
+# local platform metadata / secrets
+.lamps/
+.env
+.env.*
+!.env.example
+
+# debug and backups
+tmp-*.js
+_backup-pre-light/
+*.bak
+*.bak-*
+recon/index.4de4067c.js
+
+# dependencies
+node_modules/

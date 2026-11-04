@@ -1,0 +1,5 @@
+﻿const fs=require("fs");const p="cba-startup.js";let s=fs.readFileSync(p,"utf8");
+const oldText="(0,D.jsx)(Z,{className:`journey-start-arrow`})]}),p&&(0,D.jsxs)(`button`,{className:`journey-lineup-prompt`";
+const summary="(0,D.jsx)(Z,{className:`journey-start-arrow`})]}),f&&(0,D.jsxs)(`section`,{className:`arena-season-summary journey-season-summary`,children:[(0,D.jsxs)(`h3`,{children:[`S`,e.season,` 赛季总结`]}),(0,D.jsxs)(`p`,{className:`season-record`,children:[(e.finalWins||0)>=2?`总冠军`:`赛季结束`,` · `,e.wins,`胜 `,Math.max(0,e.match-(e.wins||0)),`负`]}),(0,D.jsxs)(`p`,{children:[`总决赛战绩 `,e.finalWins||0,` 胜。`,(e.finalWins||0)>=2?`冠军奖励已到账。`:`完赛奖励已到账，下赛季继续加油。`]}),(0,D.jsxs)(`div`,{className:`season-rewards`,children:[(0,D.jsxs)(`span`,{children:[(0,D.jsx)(Xg,{}),` +`,(e.finalWins||0)>=2?`1,000`:`500`]}),(0,D.jsxs)(`span`,{children:[`招募卡 ×`,(e.finalWins||0)>=2?2:1]})]})]}),p&&(0,D.jsxs)(`button`,{className:`journey-lineup-prompt`";
+const c=s.split(oldText).length-1;if(c!==1){console.error("MATCH",c);process.exit(1);}s=s.split(oldText).join(summary);
+fs.writeFileSync(p,s,"utf8");console.log("ok",fs.statSync(p).size);

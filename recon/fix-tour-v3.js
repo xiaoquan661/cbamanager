@@ -1,0 +1,10 @@
+const fs = require("fs");
+const file = "C:/10.19源码/签下整个CBA/cba-startup.js";
+let js = fs.readFileSync(file, "utf8");
+const oldSel = "selector: 'button[aria-label=\"球队\"]', title: '我的球队'";
+const newSel = "selector: '.bottom-nav>button:last-child', title: '我的球队'";
+console.log("match:", js.split(oldSel).length - 1);
+js = js.split(oldSel).join(newSel);
+fs.writeFileSync(file, js, "utf8");
+new Function(js);
+console.log("✓ 语法 OK");

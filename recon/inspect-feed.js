@@ -1,0 +1,12 @@
+const fs = require("fs");
+const feed = JSON.parse(fs.readFileSync("C:/10.19源码/签下整个CBA/player-feed.json", "utf8"));
+console.log("top keys:", Object.keys(feed));
+console.log("updatedAt:", feed.updatedAt, "coverage:", JSON.stringify(feed.coverage));
+console.log("schedule sample:", JSON.stringify(feed.schedules[0]));
+console.log("final schedule sample:", JSON.stringify(feed.schedules.find(s => s.status === "final" || s.final)));
+const p = Object.values(feed.players)[0];
+console.log("player keys:", Object.keys(p));
+console.log("player gameLogs sample:", JSON.stringify((p.gameLogs || []).slice(0, 2)));
+console.log("player games sample:", JSON.stringify((p.games || []).slice(0, 2)));
+console.log("players with games:", Object.values(feed.players).filter(x => (x.games || x.gameLogs || []).length).length);
+console.log("selectionByDate keys:", Object.keys(feed.selectionByDate || {}).slice(0, 5));

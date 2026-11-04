@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN" data-r13-practice="true"><head>
+<!-- Lamps 版：colyseus 移除（原版加载未用） -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="theme-color" content="#090d16"><title>签下整个CBA</title>
+<style id="cba-boot-critical">:root{color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;background:#090d16;color:#f8fafc;font-family:Inter,"Noto Sans SC",Arial,"PingFang SC","Microsoft YaHei",sans-serif}
+#cba-entry-gate[hidden],#cba-boot-error[hidden]{display:none!important}
+#cba-entry-gate,#cba-boot-error{position:fixed;z-index:2400;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(400px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;margin:0;padding:18px;border:1px solid #64748b;border-radius:12px;background:#111827;color:#f8fafc;line-height:1.6;box-shadow:0 12px 40px #0006}
+#cba-boot-error p{margin:0 0 12px;font-size:14px}
+.cba-boot-retry{display:block;width:100%;min-height:44px;margin-top:12px;border:1px solid #a3e635;border-radius:6px;background:#a3e635;color:#111827;font:inherit;cursor:pointer}
+.cba-boot-retry:focus-visible{outline:2px solid #38bdf8;outline-offset:3px}
+
+/* Inline in the entry HTML so the first paint needs no downloaded artwork. */
+#cba-boot-loading{position:fixed;inset:0;z-index:2300;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 40%,#111827 0,#111827 45%,#090d16 85%);color:#a3e635;font-family:Inter,"Noto Sans SC",Arial,"PingFang SC","Microsoft YaHei",sans-serif;text-align:center}
+#cba-boot-loading[hidden]{display:none!important}
+.cba-boot-content{width:min(272px,80vw);transform:translateY(-4vh)}
+.cba-boot-emblem{position:relative;width:76px;height:76px;margin:0 auto 26px;display:grid;place-items:center}
+.cba-boot-ring{position:absolute;inset:0;border:2px solid #a3e63525;border-top-color:#a3e635;border-right-color:#64748b;border-radius:50%;animation:cba-boot-spin 1.05s linear infinite;box-shadow:0 0 24px #83bb1b12}
+.cba-boot-ball{position:relative;width:34px;height:34px;overflow:hidden;border:1px solid #a3e635;border-radius:50%;background:radial-gradient(circle at 30% 25%,#a3e635,#83bb1b);box-shadow:0 0 20px #a3e63530}
+.cba-boot-ball:before{content:"";position:absolute;left:15px;top:-2px;width:1px;height:38px;background:#111827;transform:rotate(-30deg)}
+.cba-boot-ball:after{content:"";position:absolute;left:-11px;top:8px;width:52px;height:16px;border:1px solid #111827;border-radius:50%;transform:rotate(25deg)}
+.cba-boot-title{margin:0 0 12px;font-size:22px;font-weight:700;letter-spacing:2px;line-height:1.4}
+.cba-boot-status{margin:0 0 22px;color:#f8fafc;font-size:12px;line-height:1.6;min-height:20px}
+.cba-boot-progress{height:5px;overflow:hidden;border-radius:8px;background:#94a3b826}
+.cba-boot-progress-fill{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#83bb1b,#a3e635 55%,#c4f06a);background-size:220% 100%;box-shadow:0 0 14px #a3e63580;transition:width .18s ease-out}
+.cba-boot-progress-fill.cba-boot-shimmer{animation:cba-boot-flow 1.15s linear infinite}
+@keyframes cba-boot-flow{from{background-position:0% 0}to{background-position:-220% 0}}
+.cba-boot-percent{display:block;margin-top:10px;color:#94a3b8;font-size:11px;line-height:1.5;font-variant-numeric:tabular-nums;letter-spacing:1px}
+@keyframes cba-boot-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.cba-boot-ring{animation:none}.cba-boot-progress-fill{transition:none}}
+</style>
+<style>.cba-app-gate{box-sizing:border-box;width:min(100%,400px);margin:16px auto 0;padding:18px;border:1px solid rgba(166,226,54,48);border-radius:14px;background:rgba(21,27,33,96);color:#f8fafc;text-align:left;font-family:inherit;line-height:1.55}
+.cba-app-gate[hidden]{display:none!important}
+.cba-app-gate-title{margin:0 0 8px;font-size:18px;line-height:1.4;color:#a3e635}
+.cba-app-gate-message{margin:0 0 14px;font-size:14px;color:#f8fafc;overflow-wrap:anywhere}
+.cba-app-gate-download{display:block;width:100%;min-height:44px;padding:10px 14px;border:1px solid #a3e635;border-radius:8px;background:linear-gradient(100deg,#a3e635,#83bb1b);color:#111827;font-family:inherit;font-size:15px;font-weight:700;line-height:1.5;cursor:pointer}
+.cba-app-gate-download:disabled{opacity:.65;cursor:wait}
+.cba-app-gate-download:focus-visible{outline:2px solid #38bdf8;outline-offset:3px}
+.cba-app-gate-notice{min-height:1.5em;margin:10px 0 0;color:#f8fafc;font-size:12px;overflow-wrap:anywhere}
+@media(max-width:359px){.cba-app-gate{padding:14px;margin-top:12px}.cba-app-gate-title{font-size:16px}.cba-app-gate-message{font-size:13px}}
+</style>
+<style id="colorbox-selection-styles">
+    body { user-select: none; -webkit-user-select: none; }
+    input, textarea { user-select: text; -webkit-user-select: text; }
+  </style>
+<!-- Lamps 版：web-guard 移除 -->
+
+<!-- Lamps 版：colorbox-ai SDK 移除（由 cba-lamps-glue.js 提供垫片） -->
+<script>
+/* 本地访客身份垫片：本地游玩没有虎扑登录态，让 getUserInfo 返回明确的
+   「未登录」响应，避免身份模块反复超时重试。仅在这份本地副本中生效。 */
+(function () {
+  function install() {
+    try {
+      if (!window.ColorboxAI || typeof window.ColorboxAI !== 'object') window.ColorboxAI = {};
+      if (!window.ColorboxAI.auth || typeof window.ColorboxAI.auth !== 'object') window.ColorboxAI.auth = {};
+      window.ColorboxAI.auth.getUserInfo = function () {
+        return Promise.resolve({ code: 200, data: { islogin: 0 } });
+      };
+    } catch (e) {}
+  }
+  install();
+  var tries = 0;
+  var timer = setInterval(function () {
+    install();
+    if (++tries > 120) clearInterval(timer);
+  }, 500);
+})();
+</script>
+<script>
+(function () {
+  function install() {
+    try {
+      if (!window.ColorboxAI || typeof window.ColorboxAI !== "object") window.ColorboxAI = {};
+      if (!window.ColorboxAI.auth || typeof window.ColorboxAI.auth !== "object") window.ColorboxAI.auth = {};
+      window.ColorboxAI.auth.getUserInfo = function () {
+        return Promise.resolve({ code: 200, data: { islogin: 0 } });
+      };
+    } catch (e) {}
+  }
+  install();
+  var tries = 0;
+  var timer = setInterval(function () {
+    install();
+    if (++tries > 120) clearInterval(timer);
+  }, 500);
+})();
+</script>
+
+</head><body>
+<section id="cba-boot-loading" aria-label="正在进入游戏">
+  <div class="cba-boot-content">
+    <div class="cba-boot-emblem" aria-hidden="true"><span class="cba-boot-ring"></span><span class="cba-boot-ball"></span></div>
+    <h1 class="cba-boot-title">签下整个CBA</h1>
+    <p id="cba-boot-status" class="cba-boot-status" role="status" aria-live="polite">正在连接球馆</p>
+    <div id="cba-boot-progress" class="cba-boot-progress" role="progressbar" aria-label="游戏准备进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="cba-boot-progress-fill" class="cba-boot-progress-fill"></span></div>
+    <span id="cba-boot-percent" class="cba-boot-percent" aria-hidden="true">0%</span>
+  </div>
+</section>
+<section id="cba-entry-gate" aria-label="游戏入口提示" hidden></section>
+<section id="cba-boot-error" role="alert" hidden></section>
+<div id="root"></div>
+<noscript><style>#cba-boot-loading{display:none!important}</style>请允许 JavaScript 以运行 签下整个CBA。</noscript>
+
+
+
+
+
+
+
+
+
+<script type="application/json" id="cba-boot-images">["assets/home-fast/359f160f29e2241f.webp","assets/home-fast/43a76cd0a5eaa40d.jpg","assets/home-fast/d7b201ad7b096b1e.webp","assets/home-fast/d9ecdde339ae4d63.webp","assets/home-fast/e6583ca90b33179b.jpg","assets/home-fast/ef3b5a84a64196fc.webp","assets/home-fast/ff590a0409e42bd0.webp"]</script>
+<script type="application/json" id="cba-launch-resources">[{"type":"style","url":"cba-startup.css?v=20261103unify-internal22","bytes":552587}]</script><!-- Lamps 版：cba-startup.js 由 assets/lamps/cba-lamps-glue.js 在云存档预载后加载 -->
+<!-- Lamps 版：虎扑 App 入口门槛移除 -->
+<!-- Lamps 平台 bridge/platform（顺序：bridge → platform） -->
+<script defer src="assets/lamps/request-bridge.js"></script>
+<script defer src="assets/lamps/request-platform.js"></script>
+<script defer src="assets/lamps/game-progress-bridge.js"></script>
+<script defer src="assets/lamps/game-progress-platform.js"></script>
+<script defer src="assets/lamps/game-leaderboard-bridge.js"></script>
+<script defer src="assets/lamps/game-leaderboard-platform.js"></script>
+<script defer src="assets/lamps/game-rewarded-video-bridge.js"></script>
+<script defer src="assets/lamps/game-rewarded-video-platform.js"></script>
+<script defer src="assets/lamps/cba-daily-tasks.js?v=17"></script>
+<script defer src="assets/lamps/cba-rank-sync.js?v=20261103unify-internal22"></script>
+<script defer src="assets/lamps/cba-lamps-glue.js?v=20261103unify-internal22"></script><script defer src="cba-launch.js?v=20261103unify-internal22"></script>
+</body></html>
